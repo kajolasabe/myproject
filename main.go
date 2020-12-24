@@ -14,7 +14,7 @@ import (
 func main() {
 
 	store := filestore.FileStore{
-		Path: "/home/SLB/src/uploads",
+		Path: "/home/SLB/uploads",
 	}
 
 	composer := tusd.NewStoreComposer()
