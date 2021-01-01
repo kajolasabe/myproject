@@ -38,7 +38,7 @@
             </label>
           </td>
           <td>
-            <input type="text" id="endpoint" name="endpoint" value="http://localhost:8010/files/">
+            <input type="text" id="endpoint" name="endpoint" value="http://myproject-beego-test.accelerite-openshift-la-fbc03b92adfe8eb26bb2ca99edfad3f7-0000.che01.containers.appdomain.cloud/files/">
           </td>
         </tr>
         <tr>

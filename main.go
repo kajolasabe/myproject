@@ -15,8 +15,8 @@ import (
 
 func main() {
 
-	hookHandler := &hooks.FileHook{
-		Directory: "/home/kajol/go/src/myproject/hooks",
+	store := filestore.FileStore{
+		Path: "/home/SLB/uploads",
 	}
 
 	composer := tusd.NewStoreComposer()
@@ -27,8 +27,8 @@ func main() {
 	}
 	//hookHandler.InvokeHook(hooks.HookPreCreate, tusd.Handler., true)
 
-	store := filestore.FileStore{
-		Path: "/opt/SLB-uploads",
+	hookHandler := &hooks.FileHook{
+		Directory: "/home/kajol/go/src/myproject/hooks",
 	}
 	store.UseIn(composer)
 
