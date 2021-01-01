@@ -28,7 +28,7 @@ func main() {
 	//hookHandler.InvokeHook(hooks.HookPreCreate, tusd.Handler., true)
 
 	hookHandler := &hooks.FileHook{
-		Directory: "/home/kajol/go/src/myproject/hooks",
+		Directory: "src/myproject/hooks",
 	}
 	store.UseIn(composer)
 
