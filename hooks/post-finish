@@ -1,0 +1,9 @@
+#!/bin/sh
+
+#echo "Upload $TUS_ID ($TUS_SIZE bytes) finished"
+#echo $(cat /dev/stdin | jq .Upload.MetaData.filename | xargs) 
+#cat /dev/stdin | jq .
+filename=$(cat /dev/stdin | jq .Upload.MetaData.filename | xargs) 
+mv /opt/SLB-uploads/$TUS_ID /opt/SLB-uploads/$filename
+mv /opt/SLB-uploads/$TUS_ID.info /opt/SLB-uploads/$filename.info
+echo "Uploaded file name changed from $TUS_ID -> $filename"
