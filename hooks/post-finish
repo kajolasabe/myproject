@@ -4,6 +4,6 @@
 #echo $(cat /dev/stdin | jq .Upload.MetaData.filename | xargs) 
 #cat /dev/stdin | jq .
 filename=$(cat /dev/stdin | jq .Upload.MetaData.filename | xargs) 
-mv /opt/SLB-uploads/$TUS_ID /opt/SLB-uploads/$filename
-mv /opt/SLB-uploads/$TUS_ID.info /opt/SLB-uploads/$filename.info
+mv /home/SLB/uploads/$TUS_ID /opt/SLB-uploads/$filename
+mv /home/SLB/uploads/$TUS_ID.info /opt/SLB-uploads/$filename.info
 echo "Uploaded file name changed from $TUS_ID -> $filename"
