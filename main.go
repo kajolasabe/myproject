@@ -8,6 +8,7 @@ import (
 
 	beego "github.com/beego/beego/v2/server/web"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
+	"github.com/tus/tusd/cmd/tusd/cli"
 	"github.com/tus/tusd/cmd/tusd/cli/hooks"
 	"github.com/tus/tusd/pkg/filestore"
 	tusd "github.com/tus/tusd/pkg/handler"
@@ -16,7 +17,7 @@ import (
 func main() {
 
 	store := filestore.FileStore{
-		Path: "/home/SLB/uploads",
+		Path: "/opt/SLB-uploads",
 	}
 
 	composer := tusd.NewStoreComposer()
@@ -36,6 +37,11 @@ func main() {
 	if err != nil {
 		panic(fmt.Errorf("Unable to create handler: %s", err))
 	}
+
+	cli.Flags.MetricsPath = "/metrics"
+	cli.SetupMetrics(handler)
+	//prometheus.MustRegister(prometheuscollector.New(handler.Metrics))
+	cli.SetupHookMetrics()
 
 	go func() {
 		for {
