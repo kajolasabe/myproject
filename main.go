@@ -25,6 +25,14 @@ func main() {
 		BasePath:              "/files/",
 		StoreComposer:         composer,
 		NotifyCompleteUploads: true,
+		PreUploadCreateCallback: func(hook tusd.HookEvent) error {
+			fmt.Println("pre-create event called")
+			return nil
+		},
+		PreFinishResponseCallback: func(hook tusd.HookEvent) error {
+			fmt.Println("pre-finish event called")
+			return nil
+		},
 	}
 	//hookHandler.InvokeHook(hooks.HookPreCreate, tusd.Handler., true)
 
