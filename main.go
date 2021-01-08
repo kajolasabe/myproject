@@ -55,7 +55,9 @@ func main() {
 		for {
 			event := <-handler.CompleteUploads
 			fmt.Printf("Upload %s (%d bytes) finished\n", event.Upload.ID, event.Upload.Size)
-			hookHandler.InvokeHook(hooks.HookPostFinish, event, false)
+			if event.Upload.IsFinal {
+				hookHandler.InvokeHook(hooks.HookPostFinish, event, false)
+			}
 		}
 	}()
 
