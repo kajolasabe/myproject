@@ -7,6 +7,7 @@ import (
 	_ "myproject/routers"
 
 	beego "github.com/beego/beego/v2/server/web"
+	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/tus/tusd/cmd/tusd/cli"
 	"github.com/tus/tusd/cmd/tusd/cli/hooks"
@@ -50,16 +51,22 @@ func main() {
 	cli.SetupMetrics(handler)
 	//prometheus.MustRegister(prometheuscollector.New(handler.Metrics))
 	cli.SetupHookMetrics()
+	uploadedFileSizes := prometheus.NewHistogram(prometheus.HistogramOpts{
+		Name:    "uploaded_file_sizes",
+		Help:    "Uploaded file size in bytes",
+		Buckets: prometheus.LinearBuckets(1000000, 5000000, 10),
+	})
 
 	go func() {
 		for {
 			event := <-handler.CompleteUploads
 			fmt.Printf("Upload %s (%d bytes) finished\n", event.Upload.ID, event.Upload.Size)
-			if event.Upload.IsFinal {
-				hookHandler.InvokeHook(hooks.HookPostFinish, event, false)
-			}
+			hookHandler.InvokeHook(hooks.HookPostFinish, event, false)
+			uploadedFileSizes.Observe(float64(event.Upload.Size))
 		}
 	}()
+	
+	prometheus.MustRegister(uploadedFileSizes)
 
 	beego.Handler("/files/", http.StripPrefix("/files/", handler), true)
 	beego.Handler("/metrics", promhttp.Handler(), true)
